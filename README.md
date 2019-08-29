@@ -436,7 +436,7 @@ export default {
       clientId: null
     }
   },
-  created : function() {
+  created() {
     this.clientId = uuid();
   },
   methods: {

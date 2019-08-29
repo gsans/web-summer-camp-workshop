@@ -470,17 +470,15 @@ import { onCreateRestaurant } from './graphql/subscriptions';
 
 export default {
   name: 'app',
-  created : function() {
+  created() {
     //Subscribe to changes
-    var subscription = API.graphql(
-      graphqlOperation(onCreateRestaurant)
-    );
-    
-    subscription.subscribe((sourceData) => {
-      const newRestaurant = (sourceData).value.data.onCreateRestaurant
+    API.graphql(graphqlOperation(onCreateRestaurant))
+    .subscribe((sourceData) => {
+      const newRestaurant = sourceData.value.data.onCreateRestaurant
       if (newRestaurant) {
-        // skip our own mutations
+        // skip our own mutations and duplicates
         if (newRestaurant.clientId == this.clientId) return;
+        if (this.restaurants.some(r => r.id == newRestaurant.id)) return;
         this.restaurants = [newRestaurant, ...this.restaurants];
       } 
     });

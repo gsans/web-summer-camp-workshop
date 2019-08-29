@@ -400,7 +400,7 @@ export default {
       restaurants: [],
     }
   },
-  created: function() {
+  created() {
     const response = await API.graphql(graphqlOperation(listRestaurants));
     this.restaurants = response.data.listRestaurants.items;
   },
